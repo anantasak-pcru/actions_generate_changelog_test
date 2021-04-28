@@ -1,6 +1,9 @@
 name: Python package
 
-on: [push]
+on: 
+    push:
+        tags:
+            - '*'
 
 jobs:
   build:
@@ -20,5 +23,5 @@ jobs:
       run: python public_apk.py
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        ASSETS: "/require.txt /README.md"
+        ASSETS: "./require.txt ./README.md"
         REPOSITORY: anantasak-pcru/actions_generate_changelog_test
