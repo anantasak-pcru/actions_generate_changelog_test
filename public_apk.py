@@ -45,6 +45,7 @@ if(res.status_code == 201):
     releaseId = str(res.json()['id'])
 else: 
     print("🛑🛑 Can't create relase " + tag)
+    pprint.pprint(res.content)
     exit(0)
 
 print("🚀🚀 Uploading assets...")
