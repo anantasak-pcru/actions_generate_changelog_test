@@ -40,13 +40,11 @@ res = requests.post(url=create_url,headers=header, json=body)
 
 if(res.status_code == 201):
     print("🎉🎉 Created relase success at " + repositoty)
-    pprint.pprint(res.content)
     uploadUrl = str(res.json()['upload_url']).replace("{?name,label}", "")
     releaseId = str(res.json()['id'])
 else: 
     print("🛑🛑 Can't create relase " + tag)
-    pprint.pprint(res.content)
-    exit(0)
+    raise Exception("Can't create relase " + tag)
 
 print("🚀🚀 Uploading assets...")
 
@@ -57,3 +55,5 @@ for asset in assets:
     res = requests.post(url, files=files, headers=header)
     if(res.status_code == 201):
         print("🎉🎉 Uploading success " + fileName)
+    else:
+        print("🛑 Upload " + fileName + " error")
