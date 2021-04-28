@@ -16,8 +16,8 @@ token = os.environ["GITHUB_TOKEN"]
 
 create_url = "https://api.github.com/repos/{}/releases".format(repositoty)
 
-print(create_url)
-print("tag " + tag)
+# print(create_url)
+# print("tag " + tag)
 
 body = {
     "accept": "application/vnd.github.v3+json",
