@@ -3,34 +3,48 @@ import os
 import requests
 import pprint
 
-# repositoty = os.environ["repository"]
+repositoty = os.environ["REPOSITORY"]
+tag = os.environ["GITHUB_REF"].split('/')[2]
+body = os.environ["BODY"].split(" ")
+assets = os.environ["ASSETS"]
+uploadUrl = ""
+releaseId = ""
+token = os.environ["GITHUB_TOKEN"]
 
-tag = os.environ["GITHUB_REF"]
+create_url = "https://api.github.com/repos/anantasak-pcru/wsm-release/releases"
 
-print("current tag" + tag)
+body = {
+    "accept": "application/vnd.github.v3+json",
+    "owner": "anantasak-pcru",
+    "repo": "wsm-release",
+    "tag_name": tag,
+    "name": tag,
+    "body": body
+}
 
-# print("repository: " + repositoty)
+header = {
+    "Authorization": "Bearer " + token,
+    "Content-Type": "application/json",
+    "Accept": "application/vnd.github.v3+json"
+}
 
-# create_url = "https://api.github.com/repos/anantasak-pcru/wsm-release/releases"
+print("🚀🚀 Create relase...")
 
-# body = {
-#     "accept": "application/vnd.github.v3+json",
-#     "owner": "anantasak-pcru",
-#     "repo": "wsm-release",
-#     "tag_name": "1.0.1",
-#     "name": "1.0.1",
-#     "body": "1.0.1"
-# }
+res = requests.post(url=create_url,headers=header, json=body)
 
-# header = {
-#     "Authorization": "Bearer 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",
-#     "Content-Type": "application/json",
-#     "Accept": "application/vnd.github.v3+json"
-# }
 
-# res = requests.post(url=create_url,headers=header, json=body)
+if(res.status_code == 200):
+    print("🎉🎉 Created relase success at " + repositoty)
+    uploadUrl = str(res.json()['upload_url']).replace("{?name,label}", "")
+    releaseId = str(res.json()['id'])
+else: exit(0)
 
-# pprint.pprint(res.content)
-# print("status: " + str(res.status_code))
+print("🚀🚀 Uploading assets...")
 
-# pyhton3 public_apk.py $repository=anantasak-pcru/wsm-release
+for asset in assets:
+    fileName = asset.split('/')[-1]
+    url = uploadUrl + "?name=" + fileName
+    files = {"file": (fileName, open(assets, 'rb'), 'multipart/form-data')}
+    res = requests.post(url, files=files, headers=header)
+    if(res.status_code == 200):
+        print("🎉🎉 Uploading success " + fileName)
