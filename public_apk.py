@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-repositoty = os.environ["REPOSITORY"]
+repository = os.environ["REPOSITORY"]
 tag = os.environ["GITHUB_REF"].split('/')[2]
 body = os.environ.get("BODY", "Changelog")
 assets = os.environ["ASSETS"].split(" ")
@@ -14,15 +14,15 @@ uploadUrl = ""
 releaseId = ""
 token = os.environ["GITHUB_TOKEN"]
 
-create_url = "https://api.github.com/repos/{}/releases".format(repositoty)
+create_url = "https://api.github.com/repos/{}/releases".format(repository)
 
 # print(create_url)
 # print("tag " + tag)
 
 body = {
     "accept": "application/vnd.github.v3+json",
-    "owner": repositoty.split('/')[0],
-    "repo": repositoty.split('/')[1],
+    "owner": repository.split('/')[0],
+    "repo": repository.split('/')[1],
     "tag_name": tag,
     "name": tag
 }
@@ -33,18 +33,19 @@ header = {
     "Accept": "application/vnd.github.v3+json"
 }
 
-print("🚀🚀 Create relase...")
+print("🚀🚀 Create release...")
 
 res = requests.post(url=create_url,headers=header, json=body)
 
 
 if(res.status_code == 201):
-    print("🎉🎉 Created relase success at " + repositoty)
+    print("🎉🎉 Created release success at " + repository)
     uploadUrl = str(res.json()['upload_url']).replace("{?name,label}", "")
     releaseId = str(res.json()['id'])
 else: 
-    print("🛑🛑 Can't create relase " + tag)
-    raise Exception("Can't create relase " + tag)
+    print("🛑🛑 Can't create release " + tag)
+    print(res.json()['message'])
+    raise Exception("Can't create release " + tag)
 
 print("🚀🚀 Uploading assets...")
 
