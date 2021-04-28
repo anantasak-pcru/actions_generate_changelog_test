@@ -24,4 +24,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
         ASSETS: "./require.txt ./README.md"
-        REPOSITORY: anantasak-pcru/actions_generate_changelog_test
+        REPOSITORY: anantasak-pcru/python_upload_release_assets
