@@ -38,7 +38,7 @@ print("🚀🚀 Create relase...")
 res = requests.post(url=create_url,headers=header, json=body)
 
 
-if(res.status_code == 200):
+if(res.status_code == 201):
     print("🎉🎉 Created relase success at " + repositoty)
     pprint.pprint(res.content)
     uploadUrl = str(res.json()['upload_url']).replace("{?name,label}", "")
@@ -54,5 +54,5 @@ for asset in assets:
     url = uploadUrl + "?name=" + fileName
     files = {"file": (fileName, open(asset, 'rb'), 'multipart/form-data')}
     res = requests.post(url, files=files, headers=header)
-    # if(res.status_code == 200):
-    print("🎉🎉 Uploading success " + fileName)
+    if(res.status_code == 201):
+        print("🎉🎉 Uploading success " + fileName)
