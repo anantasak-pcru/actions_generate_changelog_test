@@ -21,4 +21,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
         ASSETS: "/require.txt /README.md"
-        REPOSITORY: anantasak/actions_generate_changelog_test
+        REPOSITORY: anantasak-pcru/actions_generate_changelog_test
