@@ -19,7 +19,6 @@ jobs:
     - name: run script
       run: python public_apk.py
       env:
-        BODY: ${{ github.event.head_commit.message }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
         ASSETS: "/require.txt /README.md"
         REPOSITORY: anantasak/actions_generate_changelog_test
