@@ -8,7 +8,7 @@ load_dotenv()
 
 repositoty = os.environ["REPOSITORY"]
 tag = os.environ["GITHUB_REF"].split('/')[2]
-body = os.environ["BODY"].split(" ")
+body = os.environ.get("BODY", "Changelog")
 assets = os.environ["ASSETS"].split(" ")
 uploadUrl = ""
 releaseId = ""
